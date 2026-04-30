@@ -10,5 +10,15 @@ class HalfAdder extends Module {
   val sum  = IO(Output(Bool()))
   val cout = IO(Output(Bool()))
 
-  ???
+  // todo
+  sum  := XOR(a, b)
+  cout := AND(a, b)
+  // val andgate = Module(new ANDGate)
+  // val xorgate = Module(new XORGate)
+  // andgate.a := a
+  // andgate.b := b
+  // xorgate.a := a
+  // xorgate.b := b
+  // cout := andgate.out
+  // sum  := xorgate.out
 }

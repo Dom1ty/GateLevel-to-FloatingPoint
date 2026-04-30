@@ -10,5 +10,10 @@ class Mux(width: Int) extends Module {
   val sel = IO(Input(Bool()))
   val out = IO(Output(Vec(width, Bool())))
 
-  ???
+  // todo
+  for (i <- 0 until width) {
+    val choice1 = AND(a(i), NOT(sel))
+    val choice2 = AND(b(i), sel) // 利用and 和1 等于本身特性 实现 sel = 0 -> a(i)    sel = 1 -> b(i)
+    out(i) := OR(choice1, choice2)
+  }
 }

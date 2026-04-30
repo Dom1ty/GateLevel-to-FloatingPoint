@@ -11,5 +11,8 @@ class FullAdder extends Module {
   val sum  = IO(Output(Bool()))
   val cout = IO(Output(Bool()))
 
-  ???
+  // todo
+  sum  := XOR(XOR(a, b), cin)
+  cout := OR(AND(XOR(a, b), cin), AND(a, b))
+
 }

@@ -77,8 +77,55 @@ object GetMantissa {
     float.slice(0, 23)
   }
 }
-//0000000 or 100000000 both is zero
 
+// for n digit
+object IsAllZero {
+  def apply(width: Int, in: Vec[Bool]): Bool = {
+    NOT(nBitOR(width, in))
+  }
+}
+
+// all  1
+object IsAllOnes {
+  def apply(width: Int, in: Vec[Bool]): Bool = {
+    nBitAND(width, in)
+  }
+}
+// for 01100.....
+object IsNonZero {
+  def apply(width: Int, in: Vec[Bool]): Bool = {
+    nBitOR(width, in)
+  }
+}
+
+object IsNaN {
+  def apply(float: Vec[Bool]): Bool = {
+    val exp = GetExponent(float)
+    val man = GetMantissa(float)
+
+    AND(
+      IsAllOnes(8, exp),
+      IsNonZero(23, man)
+    )
+  }
+}
+
+
+object IsInfinity {
+  def apply(float: Vec[Bool]): Bool = {
+    val exp = GetExponent(float)
+    val man = GetMantissa(float)
+
+    AND(
+      IsAllOnes(8, exp),
+      IsAllZero(23, man)
+    )
+  }
+}
+
+
+//0000000 or 100000000 both is zero
+//for 32 digit
 object IsZero{
     def apply(float: Vec[Bool]): Bool = {
       val exp = GetExponent(float)
@@ -88,42 +135,6 @@ object IsZero{
     }
 
 }
-
-object IsExpAllOnes{
-    def apply(float: Vec[Bool]): Bool = {
-      val exp = GetExponent(float)
-      nBitAND(8, exp)
-      
-    }
-
-}
-
-object IsMantissaZero{
-    def apply(float: Vec[Bool]): Bool = {
-      val mantissa = GetMantissa(float)
-      NOT(nBitOR(23, mantissa))
-    }
-}
-
-object IsNaN{
-    def apply(float: Vec[Bool]): Bool = {
-      
-      AND(IsExpAllOnes(float), NOT(IsMantissaZero(float)))
-    }
-}
-
-
-
-object IsInfinity{
-    def apply(float: Vec[Bool]): Bool = {
-    
-      AND(IsExpAllOnes(float), IsMantissaZero(float))
-      
-    }
-
-}
-
-
 
 
 

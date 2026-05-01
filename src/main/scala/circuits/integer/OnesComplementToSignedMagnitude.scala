@@ -8,5 +8,5 @@ class OnesComplementToSignedMagnitude(width: Int) extends Module {
   val onesComplement  = IO(Input(Vec(width, Bool())))
   val signedMagnitude = IO(Output(Vec(width, Bool())))
 
-  ???
+  signedMagnitude := ConditionalInvertExceptSign(width, onesComplement, onesComplement(width - 1))
 }

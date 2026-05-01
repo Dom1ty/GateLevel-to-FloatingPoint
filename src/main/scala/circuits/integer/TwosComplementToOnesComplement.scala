@@ -8,5 +8,5 @@ class TwosComplementToOnesComplement(width: Int) extends Module {
   val twosComplement = IO(Input(Vec(width, Bool())))
   val onesComplement = IO(Output(Vec(width, Bool())))
 
-  ???
+  onesComplement := ConditionalDecrement(width, twosComplement, twosComplement(width - 1))
 }

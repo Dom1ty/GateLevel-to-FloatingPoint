@@ -15,3 +15,11 @@ class nBitOR(n: Int) extends Module {
   }
   out := result
 }
+
+object nBitOR {
+  def apply(width: Int, a: Seq[Bool]): Bool = {
+    val orN = Module(new nBitOR(width))
+    orN.a := a
+    orN.out
+  }
+}

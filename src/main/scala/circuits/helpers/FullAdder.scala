@@ -17,7 +17,7 @@ class FullAdder extends Module {
 
 }
 
-object myFullAdder {
+object FullAdder {
   def apply(a: Bool, b: Bool, cin: Bool): (Bool, Bool) = {
     val fa = Module(new FullAdder)
     fa.a   := a

@@ -12,15 +12,15 @@ class nBitAdderSubtractor(width: Int) extends Module {
   val cout       = IO(Output(Bool()))
 
   // enable sub = true -> sub
-  val not_b   = myNOT(width, b)
-  val muxed_b = myMUX(width, enable_sub, b, not_b) // 用来运算的b
+  val not_b   = nBitNOT(width, b)
+  val muxed_b = Mux(width, enable_sub, b, not_b) // 用来运算的b
 
   // 减法就加一   加法 =  0  刚好作为进位
   var cin = enable_sub
 
   // n个fulladder 循环对每一位进行运算
   for (i <- 0 until width) {
-    val (s, c) = myFullAdder(a(i), muxed_b(i), cin)
+    val (s, c) = FullAdder(a(i), muxed_b(i), cin)
 
     sum(i) := s
     cin = c
@@ -29,4 +29,15 @@ class nBitAdderSubtractor(width: Int) extends Module {
   // 给最后的output赋值
   cout := XOR(enable_sub, cin) // cout 最后算出来的进位 加法 那么进位就是本身，减法就取反
 
+}
+
+object nBitAdderSubtractor {
+  def apply(width: Int, a: Seq[Bool], b: Seq[Bool], enableSub: Bool): (Seq[Bool], Bool) = {
+    val adderSub = Module(new nBitAdderSubtractor(width))
+    adderSub.a := a
+    adderSub.b := b
+    adderSub.enable_sub := enableSub
+
+    (adderSub.sum, adderSub.cout)
+  }
 }

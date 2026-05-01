@@ -18,7 +18,7 @@ class Mux(width: Int) extends Module {
   }
 }
 
-object myMUX {
+object Mux {
   def apply(width: Int, sel: Bool, a: Seq[Bool], b: Seq[Bool]): Seq[Bool] = {
     val m = Module(new Mux(width))
     m.a   := a

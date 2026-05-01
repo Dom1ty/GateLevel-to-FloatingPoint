@@ -17,3 +17,13 @@ class Mux(width: Int) extends Module {
     out(i) := OR(choice1, choice2)
   }
 }
+
+object myMUX {
+  def apply(width: Int, sel: Bool, a: Seq[Bool], b: Seq[Bool]): Seq[Bool] = {
+    val m = Module(new Mux(width))
+    m.a   := a
+    m.b   := b
+    m.sel := sel
+    m.out
+  }
+}

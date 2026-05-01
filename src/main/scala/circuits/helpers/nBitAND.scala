@@ -15,5 +15,4 @@ class nBitAND(n: Int) extends Module {
     result = AND(result, a(i))
   }
   out := result
-
 }

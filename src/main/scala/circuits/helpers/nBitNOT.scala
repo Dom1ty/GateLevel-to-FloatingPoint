@@ -15,7 +15,7 @@ class nBitNOT(n: Int) extends Module {
 }
 
 object nBitNOT {
-  def apply(width: Int, a: Seq[Bool]): Seq[Bool] = {
+  def apply(width: Int, a: Seq[Bool]): Vec[Bool] = {
     val n = Module(new nBitNOT(width))
     n.a := a
     n.out

@@ -32,10 +32,10 @@ class nBitAdderSubtractor(width: Int) extends Module {
 }
 
 object nBitAdderSubtractor {
-  def apply(width: Int, a: Seq[Bool], b: Seq[Bool], enableSub: Bool): (Seq[Bool], Bool) = {
+  def apply(width: Int, a: Seq[Bool], b: Seq[Bool], enableSub: Bool): (Vec[Bool], Bool) = {
     val adderSub = Module(new nBitAdderSubtractor(width))
-    adderSub.a := a
-    adderSub.b := b
+    adderSub.a          := a
+    adderSub.b          := b
     adderSub.enable_sub := enableSub
 
     (adderSub.sum, adderSub.cout)

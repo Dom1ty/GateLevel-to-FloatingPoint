@@ -20,15 +20,13 @@ class nBitAdderSubtractor(width: Int) extends Module {
 
   // n个fulladder 循环对每一位进行运算
   for (i <- 0 until width) {
-    val fa = Module(new FullAdder)
-    fa.a   := a(i)
-    fa.b   := muxed_b(i)
-    fa.cin := cin
-    sum(i) := fa.sum
-    // 更新下一轮的cin
-    cin = fa.cout
+    val (s, c) = myFullAdder(a(i), muxed_b(i), cin)
+
+    sum(i) := s
+    cin = c
   }
-  // 给output赋值
+
+  // 给最后的output赋值
   cout := XOR(enable_sub, cin) // cout 最后算出来的进位 加法 那么进位就是本身，减法就取反
 
 }

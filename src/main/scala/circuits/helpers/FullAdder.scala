@@ -16,3 +16,14 @@ class FullAdder extends Module {
   cout := OR(AND(XOR(a, b), cin), AND(a, b))
 
 }
+
+object myFullAdder {
+  def apply(a: Bool, b: Bool, cin: Bool): (Bool, Bool) = {
+    val fa = Module(new FullAdder)
+    fa.a   := a
+    fa.b   := b
+    fa.cin := cin
+
+    (fa.sum, fa.cout)
+  }
+}

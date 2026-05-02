@@ -132,6 +132,55 @@ object IsZero {
 
 }
 
-// ShiftRight
-// ShiftLeft
-// LeadingOneDetector
+// -------------------------------------------------- Int to  Float ----------------------------
+//turn one 0000010100111    -->   0000010000000     one-hot
+object ToOneHot {
+  def apply(width: Int, magnitude: Seq[Bool]): Vec[Bool] = {
+    var seenHigherOne = false.B
+    val res           = Wire(Vec(width, Bool()))
+
+    for (i <- (0 until width).reverse) {
+      res(i) := AND(magnitude(i), NOT(seenHigherOne))
+      seenHigherOne = OR(seenHigherOne, magnitude(i))
+    }
+    res
+  }
+}
+
+//oneHot(i) = 5   --> 5 + 127 = 000010000 -> 11001
+object oneHotToExp {
+  def apply(width: Int, oneHot: Vec[Bool]): Vec[Bool] = {
+    val exp = Wire(Vec(8, Bool()))
+    for (b <- 0 until 8) {
+      var acc = false.B
+      for (i <- 0 until width) {
+        val value    = 127 + i
+        val bitIsOne = ((value >> b) & 1) == 1
+
+        if (bitIsOne) {
+          acc = OR(acc, oneHot(i))
+        }
+      }
+      exp(b) := acc
+    }
+    exp
+  }
+}
+
+object oneHotToMan {
+  def apply(width: Int, oneHot: Vec[Bool], magnitude: Seq[Bool]): Vec[Bool] = {
+    val man = Wire(Vec(23, Bool()))
+    for (j <- 0 until 23) {
+      var acc = false.B
+      for (i <- 0 until width) {
+        // oneHot(i)        mantissa(j) =  magnitude ( i-j-1)
+        val src = i - 1 - (22 - j)
+        if (src >= 0) {
+          acc = OR(acc, AND(oneHot(i), magnitude(src)))
+        }
+      }
+      man(j) := acc
+    }
+    man
+  }
+}

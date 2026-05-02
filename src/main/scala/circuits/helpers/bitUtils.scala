@@ -57,43 +57,41 @@ object ConditionalDecrement {
   }
 }
 
-
-
 // ---------------------------------------floatingpoint-------------------------------
-object GetSign{
+object GetSign {
   def apply(float: Vec[Bool]): Bool = {
     float(31)
 
   }
 }
 object GetExponent {
-  def apply(float: Vec[Bool]): Vec[Bool] = {
+  def apply(float: Vec[Bool]): Seq[Bool] = {
     float.slice(23, 31)
   }
 }
 
 object GetMantissa {
-  def apply(float: Vec[Bool]): Vec[Bool] = {
+  def apply(float: Vec[Bool]): Seq[Bool] = {
     float.slice(0, 23)
   }
 }
 
 // for n digit
 object IsAllZero {
-  def apply(width: Int, in: Vec[Bool]): Bool = {
+  def apply(width: Int, in: Seq[Bool]): Bool = {
     NOT(nBitOR(width, in))
   }
 }
 
 // all  1
 object IsAllOnes {
-  def apply(width: Int, in: Vec[Bool]): Bool = {
+  def apply(width: Int, in: Seq[Bool]): Bool = {
     nBitAND(width, in)
   }
 }
 // for 01100.....
 object IsNonZero {
-  def apply(width: Int, in: Vec[Bool]): Bool = {
+  def apply(width: Int, in: Seq[Bool]): Bool = {
     nBitOR(width, in)
   }
 }
@@ -110,7 +108,6 @@ object IsNaN {
   }
 }
 
-
 object IsInfinity {
   def apply(float: Vec[Bool]): Bool = {
     val exp = GetExponent(float)
@@ -123,22 +120,17 @@ object IsInfinity {
   }
 }
 
-
 //0000000 or 100000000 both is zero
 //for 32 digit
-object IsZero{
-    def apply(float: Vec[Bool]): Bool = {
-      val exp = GetExponent(float)
-      val mantissa = GetMantissa(float)
-      AND( Not( nBitOR(8, exp)), NOT( nBitOR(23, mantissa)))
-      
-    }
+object IsZero {
+  def apply(float: Vec[Bool]): Bool = {
+    val exp      = GetExponent(float)
+    val mantissa = GetMantissa(float)
+    AND(NOT(nBitOR(8, exp)), NOT(nBitOR(23, mantissa)))
+
+  }
 
 }
-
-
-
-
 
 // ShiftRight
 // ShiftLeft

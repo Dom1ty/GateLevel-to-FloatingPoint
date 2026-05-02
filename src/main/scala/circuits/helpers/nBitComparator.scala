@@ -30,7 +30,7 @@ class nBitComparator(width: Int) extends Module {
 }
 
 object nBitComparator {
-  def apply(width: Int, a: Vec[Bool], b: Vec[Bool]): (Bool, Bool) = {
+  def apply(width: Int, a: Seq[Bool], b: Seq[Bool]): (Bool, Bool) = {
     val comp = Module(new nBitComparator(width))
     comp.a := a
     comp.b := b
